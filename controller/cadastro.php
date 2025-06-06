@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         empty($email) ||
         empty($senha) ||
         empty($confirmar_senha)
-    ) {         // Se os campos estão preenchidos
+    ) {         // Se os campos não estão preenchidos
         echo "
             <script>
                 alert('Atenção: Preencha todos os campos!');
@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         ";
         exit;
     }
-    if($senha != $confirmar_senha) {        // Se confirmou a senha
+    if($senha != $confirmar_senha) {        // Se não confirmou a senha
         echo "
             <script>
                 alert('Atenção: As senhas não coincidem!');
@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         ";
         exit;
     }
-    if(!Logica::validate_email($email)) {       // Se o e-mail é válido
+    if(!Logica::validate_email($email)) {       // Se o e-mail é ou não válido
         echo "
             <script>
                 alert('Atenção: E-mail inválido.');
@@ -55,10 +55,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = new Usuario($nome, $email, $senha);
             $usuario->cadastrar();
             echo "
-            <script>
-                alert('Cadastro Realizado com Sucesso!');
-                window.location.replace('../view/login.html');
-            </script>
+                <script>
+                    alert('Cadastro Realizado com Sucesso!');
+                    window.location.replace('../view/login.html');
+                </script>
             ";
             exit;
         }

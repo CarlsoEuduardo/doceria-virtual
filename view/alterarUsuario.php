@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
+    <?php require "../controller/authUsuario.php" ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +11,6 @@
 <style>
 
     body {
-
         font-family: 'Inter', sans-serif;
         margin: 0;
         padding: 0;
@@ -55,12 +54,12 @@
         width: 420px;
     }
 
-    .formLogin h1 {
+    .formLogin h2 {
         text-align: center;
         padding: 0;
         margin: 0;
         font-weight: 500;
-        font-size: 2.3em;
+        font-size: 1.5em;
     }
 
     .formLogin p {
@@ -114,38 +113,43 @@
         transition: all linear 160ms;
         cursor: pointer;
         margin: 0 !important;
-
+        border-radius: 5px;
     }
 
     .btn:hover {
         transform: scale(1.05);
         background-image: linear-gradient(to right, #F8AAC1, #ff0676);
-
+    }
+    .delete:hover {
+        transform: scale(1.05);
+        background-image: linear-gradient(to right, #ff0000, #aa0000);
     }
 </style>
 
 <body>
-    <a href="../index.php"><img src="../assets/img/seta_esquerda2.png" alt="voltar" height="50px" width="50px"
-            class="btnSeta"></a>
+    <a href="../index.php"><img src="../assets/img/seta_esquerda2.png" alt="voltar" height="50px" width="50px" class="btnSeta"></a>
     <div class="page">
-        <form action="../controller/cadastro.php" method="POST" class="formLogin">
-            <h1>Cadastre-se</h1>
+        <form action="../controller/desativarUsuario.php" method="POST">
+            <input type="hidden" value="<?php $_SESSION['usuario']->getId();?>" name="id_usuario">
+            <input type="submit" style="color:#000; background-color: #fff;" class="btn delete" value="Desativar Conta">
+        </form>
+        <form action="" method="POST" class="formLogin">
+            <h2>Editando Dados</h2>
+            <h3>Usuário: <b><?php echo $_SESSION['usuario']->getNome(); ?></b></h3>
             <label for="nome">Nome Completo</label>
             <input name="nome" id="nome" type="text" placeholder="Digite seu nome" autofocus="true" />
 
-            <label for="email">E-mail</label>
-            <input name="email" id="email" type="email" placeholder="Digite seu e-mail" autofocus="true" />
+            <label for="antiga-senha">Antiga Senha</label>
+            <input name="antiga-senha" id="antiga-senha" type="password" placeholder="************" autofocus="true" />
 
-            <label for="senha">Senha</label>
+            <label for="senha">Nova senha</label>
             <input name="senha" id="senha" type="password" placeholder="************" />
 
-            <label for="confirmar-senha">Repita a senha</label>
+            <label for="confirmar-senha">Repita a nova senha</label>
             <input name="confirmar-senha" id="confirmar-senha" type="password" placeholder="************" />
 
-            <a href="esqueciSenha.html">Esqueci minha senha</a>
             <input type="submit" value="Cadastrar" class="btn" />
         </form>
-        <h4>Já tem uma conta? <a href="login.html">Entrar</a></h4>
     </div>
 
 </body>

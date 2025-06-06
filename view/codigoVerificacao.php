@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php 
+    require_once "../controller/auth.php";
+    if(!isset($_SESSION['codigo_expiracao'])) {
+        echo "<script> window.history.back(); </script>";
+    }
+?>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -92,14 +98,14 @@ section{
 </style>
 <body>
     <a href="login.html"><img src="../assets/img/seta_esquerda2.png" alt="voltar" height="50px" width="50px" class="btnSeta"></a>    
-    <h1>Esqueci Minha Senha</h1>
+    <h1>Autenticação</h1>
      <section>
        <div class="div">
-            <form action="../controller/esqueciSenha.php" method="POST">
-                <label for="email">E-mail</label>
-                <input type="email" name="email" placeholder="Digite seu e-mail de recuperação de senha" autofocus="true" />
+            <form action="" method="POST">
+                <label for="codigo">Código</label>
+                <input type="text" name="codigo" placeholder="Digite o código enviado para o seu email" autofocus="true" />
                     
-                <input type="submit" value="Enviar Confirmação" class="btn"/>
+                <input type="submit" value="Enviar" class="btn"/>
             </form>
         </div> 
     </section>

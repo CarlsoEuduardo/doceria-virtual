@@ -5,9 +5,10 @@ class Usuario {
     private $email;
     private $senha;
     private $admin;
+    private $ativo;
 
     /* Construtor */
-    function __construct($nome, $email, $senha = null, $admin = null, $id = null) {
+    function __construct($nome, $email, $senha = null, $admin = null, $id = null, $ativo = 1) {
         $this->id = $id;
         if(!isset($this->id)) {
             unset($this->id);
@@ -22,6 +23,7 @@ class Usuario {
         if(!isset($this->admin)) {
             unset($this->admin);
         }
+        $this->ativo = $ativo;
     }
 
     /* Métodos do Objeto */     // cadastros e remoção
@@ -33,16 +35,57 @@ class Usuario {
         ";
         $stmt = $pdo->prepare($sql);
         try {
-        $stmt->execute([
-            ':nome' => $this->nome,
-            ':email' => $this->email,
-            ':senha' => (password_hash($this->senha, PASSWORD_DEFAULT))
-        ]);
+            $stmt->execute([
+                ':nome' => $this->nome,
+                ':email' => $this->email,
+                ':senha' => (password_hash($this->senha, PASSWORD_DEFAULT))
+            ]);
+        } catch(Exception $e) {
+            echo $e;
+        }
+    }
+    public function update() {
+        try {
+            $pdo = require "config.php";
+            $sql = "
+                UPDATE usuario
+                SET
+                    ativo = :valor
+                WHERE id_usuario = :id
+            ";
+            $stmt->execute([
+                ':valor' => $valor,
+                ':id' => $this->id
+            ]);
+        } catch(Exception $e) {
+            echo $e;
+        }
+    }
+    private function atividade($valor) : void {
+        $pdo = require "config.php";
+        $sql = "
+            UPDATE usuario
+            SET ativo = :valor
+            WHERE id_usuario = :id
+        ";
+        $stmt = $pdo->prepare($sql);
+        try {
+            $stmt->execute([
+                ':valor' => $valor,
+                ':id' => $this->id
+            ]);
         } catch(Exception $e) {
             echo $e;
         }
     }
 
+
+    public function ativar() : void {
+        $this->atividade(1);
+    }
+    public function desativar() : void {
+        $this->atividade(0);
+    }
         /* Set */
     public function setNome($nome) {$this->nome = $nome;}
     public function setEmail($email) {$this->email = $email;}
@@ -51,7 +94,8 @@ class Usuario {
         /* Get */
     public function getId() {return $this->id;}
     public function getNome() {return $this->nome;}
-    
+    public function getAtivo() {return $this->ativo;}
+
     public function isAdmin() {
         if($this->admin == 1) {
             return true;
@@ -88,7 +132,7 @@ class Usuario {
     public static function login($email) : void {
         $pdo = require "config.php";
         $sql = "
-            SELECT id_usuario, nome_usuario, email_usuario, admin
+            SELECT id_usuario, nome_usuario, email_usuario, admin, ativo
             FROM usuario
             WHERE email_usuario = :email
         ";
@@ -101,7 +145,8 @@ class Usuario {
             $row['email_usuario'],
             null,
             $row['admin'],
-            $row['id_usuario']
+            $row['id_usuario'],
+            $row['ativo']
         );
     }
 }
