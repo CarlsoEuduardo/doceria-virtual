@@ -6,7 +6,7 @@
         if(isset($_SESSION['usuario'])) {
             echo "
                 <script>
-                    window.location.replace('../view/catalogo.php');
+                    window.location.replace('view/catalogo.php');
                 </script>
             ";
         }
