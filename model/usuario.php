@@ -8,22 +8,32 @@ class Usuario {
     private $ativo;
 
     /* Construtor */
-    function __construct($nome, $email, $senha = null, $admin = null, $id = null, $ativo = 1) {
-        $this->id = $id;
-        if(!isset($this->id)) {
-            unset($this->id);
+    public function __construct($nome = null, $email = null, $senha = null, $admin = null, $id = null, $ativo = 1) {
+        if($nome != null)
+        {
+            $this->id = $id;
+            $this->nome = $nome;
+            $this->email = $email;
+            $this->senha = $senha;
+            $this->admin = $admin;
+            $this->ativo = $ativo;
+
+            if(!isset($this->id)) {unset($this->id);}
+            if(!isset($this->senha)) {unset($this->senha);}
+            if(!isset($this->admin)) {unset($this->admin);}
         }
-        $this->nome = $nome;
-        $this->email = $email;
-        $this->senha = $senha;
-        if(!isset($this->senha)) {
-            unset($this->senha);
+        else
+        {
+            $row = self::procurarUsuario($email);
+            
+            $this->id = $row['id_usuario'];
+            $this->nome = $row['nome_usuario'];
+            $this->email = $row['email_usuario'];
+            $this->admin = $row['admin'];
+            $this->ativo = $row['ativo'];
+
+            if(!isset($this->admin)) {unset($this->admin);}
         }
-        $this->admin = $admin;
-        if(!isset($this->admin)) {
-            unset($this->admin);
-        }
-        $this->ativo = $ativo;
     }
 
     /* Métodos do Objeto */     // cadastros e remoção
@@ -40,6 +50,7 @@ class Usuario {
                 ':email' => $this->email,
                 ':senha' => (password_hash($this->senha, PASSWORD_DEFAULT))
             ]);
+            Email::enviar($this->email, 'cadastro');
         } catch(Exception $e) {
             echo $e;
         }
@@ -115,6 +126,13 @@ class Usuario {
             return false;
         }
     }
+    public static function procurarUsuario($email) {
+        $pdo = require "config.php";
+        $sql = "SELECT * FROM usuario WHERE email_usuario = :email";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     public static function validarSenha($email, $senha) : bool {
         $pdo = require "config.php";
@@ -129,7 +147,7 @@ class Usuario {
         }
         return false;
     }
-    public static function login($email) : void {
+    public static function login($email) : bool {
         $pdo = require "config.php";
         $sql = "
             SELECT id_usuario, nome_usuario, email_usuario, admin, ativo
@@ -139,15 +157,20 @@ class Usuario {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':email' => $email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        session_start();
-        $_SESSION['usuario'] = new Usuario(
-            $row['nome_usuario'],
-            $row['email_usuario'],
-            null,
-            $row['admin'],
-            $row['id_usuario'],
-            $row['ativo']
-        );
+        if($row['ativo'] == 1) {
+            session_start();
+            $_SESSION['usuario'] = new Usuario(
+                $row['nome_usuario'],
+                $row['email_usuario'],
+                null,
+                $row['admin'],
+                $row['id_usuario'],
+                $row['ativo']
+            );
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 ?>

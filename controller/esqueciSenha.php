@@ -23,7 +23,7 @@ if($_SESSION['esqueciSenha_limit'] < 5) {
             require "../model/usuario.php";
             if(Usuario::procurarEmail($email)) {
                 require "../model/Auth.php";
-                Mail::mail($email);
+                Email::enviar($email, 'esqueciSenha');
                 echo "
                     <script>
                         alert('E-mail enviado com sucesso! Atenção ao tempo, seu código expira em 5 minutos!');

@@ -56,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario->cadastrar();
             echo "
                 <script>
-                    alert('Cadastro Realizado com Sucesso!');
+                    alert('Um email foi enviado para confirmar seu Cadastro!');
                     window.location.replace('../view/login.html');
                 </script>
             ";

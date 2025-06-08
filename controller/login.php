@@ -25,23 +25,32 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         ";
         exit;
     } else {
-        try {         // Sucesso!
-            Usuario::login($email);
+        try {
+            if (Usuario::login($email)) {         // Sucesso!
+                echo "
+                    <script>
+                        alert('Login Realizado com Sucesso!');
+                        window.location.replace('../view/catalogo.php');
+                    </script>
+                ";
+                exit;
+            } else {         // Conta não ativada
+                echo "
+                    <script>
+                        alert('Atenção: Conta não ativada, verifique seu email.');
+                        window.history.back();
+                    </script>
+                ";
+                exit;
+            }
+        } catch(Exception $e) {         // Erro
             echo "
                 <script>
-                    alert('Login Realizado com Sucesso!');
-                    window.location.replace('../view/catalogo.php');
+                    alert('Erro: $e');
+                    window.history.back();
                 </script>
             ";
             exit;
-        } catch(Exception $e) {         // Erro
-            echo "
-            <script>
-                alert('Erro: $e');
-                window.history.back();
-            </script>
-        ";
-        exit;
         }
     }
 }

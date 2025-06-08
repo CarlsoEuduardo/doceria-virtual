@@ -1,0 +1,5 @@
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch PATH-TO-YOUR-FILE-WITH-SENSITIVE-DATA" --prune-empty --tag-name-filter cat -- --all
+
+echo "FILE-WITH-SENSITIVE-DATA" >> .gitignore
+
+git push origin --force --all
