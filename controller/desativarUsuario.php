@@ -7,9 +7,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "<script>";
 
     if(
-        $_SESSION['usuario']->getId == $id ||
-        $_SESSION['usuario']->isAdmin()
-        ) {
+        $_SESSION['usuario']->getId == $id) {
             echo "
                 if(!confirm('Tem certeza que deseja desativar a conta?')) {
                     window.history.back();</script>

@@ -172,7 +172,7 @@
 
         ativadores.forEach(elemento => {
             const html_original = elemento.innerHTML;
-            const id = (elemento.id).slice(11);
+            const id = (elemento.id).slice(8);
             // const html_alterado = elemento.innerHTML;
 
             elemento.addEventListener('mouseenter', () => {

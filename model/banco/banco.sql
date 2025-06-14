@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS usuario (
     nome_usuario 	CHAR(100)	NOT NULL,
     email_usuario 	CHAR(200) 	NOT NULL	UNIQUE,
     senha_usuario 	CHAR(255) 	NOT NULL,
-    admin			BIT(1),
-    ativo           BIT(1)      NOT NULL    DEFAULT 0,
+    admin			BOOL,
+    ativo           BOOL        NOT NULL    DEFAULT 0,
     PRIMARY KEY (id_usuario)
 )
 ENGINE = InnoDB

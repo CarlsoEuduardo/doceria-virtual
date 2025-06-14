@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo "
             <script>
                 alert('Usuário desativado com sucesso!');
-                window.history.back();
+                window.location.replace('../view/gerenciarUsuarios.php');
             </script>
         ";
         exit;

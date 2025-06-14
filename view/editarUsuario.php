@@ -137,7 +137,7 @@
             <h2>Editando Dados</h2>
             <h3>Usuário: <b><?php echo $_SESSION['usuario']->getNome(); ?></b></h3>
             <label for="nome">Nome</label>
-            <input name="nome" id="nome" type="text" placeholder="Digite seu nome" autofocus="true" />
+            <input name="nome" id="nome" type="text" placeholder="Digite seu nome" />
 
             <a href="trocarSenha.php">Trocar Senha</a>
 
