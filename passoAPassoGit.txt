@@ -1,0 +1,15 @@
+git init
+git status
+git add .
+git status
+git commit -m "COMMIT-NAME"
+git branch -M main
+git remote add origin REPOSITORY-LINK
+git push -u origin main
+
+git status
+git rm FILE-NAME    <!-- para todas as pastas removidas -->
+git add .
+git status
+git commit -m "COMMIT-NAME"
+git push -u origin main

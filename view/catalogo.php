@@ -1,6 +1,6 @@
+<?php require "../controller/authUsuario.php" ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-    <?php require "../controller/authUsuario.php" ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +51,7 @@
             transition: all linear 160ms;
         }
         
-            a:hover {
+        a:hover {
             color: #f72585;
         }
     </style>
@@ -60,7 +60,7 @@
     <?php
         echo "
             <a href='../controller/logout.php'><button class='btn-login'>Logout</button></a>
-            <a href='alterarUsuario.php'><b>Usuário:</b> ". $_SESSION['usuario']->getNome()."</a>
+            <a href='editarUsuario.php'><b>Usuário:</b> ". $_SESSION['usuario']->getNome()."</a>
         ";
     ?>
     <h1>Aqui é o Catalogo Los Doces</h1>
@@ -69,8 +69,7 @@
             echo"
                 <br><br><br>
                 <h2>Admin:</h2>
-                <a href=''><button>Usuários</button></a>
-                <a href=''><button>Catálogo</button></a>
+                <a href='gerenciarUsuarios.php'><button>Usuários</button></a>
             ";
         }
     ?>

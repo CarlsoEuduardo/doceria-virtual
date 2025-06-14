@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         ";
         exit;
     }
-    if($senha != $confirmar_senha) {        // Se não confirmou a senha
+    if($senha != $confirmar_senha) {        // Se as senhas não são iguais
         echo "
             <script>
                 alert('Atenção: As senhas não coincidem!');
@@ -52,12 +52,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             ";
             exit;
         } else {       // Sucesso
-            $usuario = new Usuario($nome, $email, $senha);
+            $usuario = new Usuario(null, $nome, $email, $senha);
             $usuario->cadastrar();
             echo "
                 <script>
                     alert('Um email foi enviado para confirmar seu Cadastro!');
-                    window.location.replace('../view/login.html');
+                    window.location.href = '../view/login.html';
                 </script>
             ";
             exit;

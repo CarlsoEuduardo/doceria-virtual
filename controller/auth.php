@@ -1,19 +1,33 @@
 <?php
-// Set timeout duration in seconds (e.g., 1800 = 30 minutes)
+// Seta a duração de timeout em segundos (ex.: 1800 = 30 minutos)
 $timeout = 1800;
+// Seta a duração de timeout em segundos (ex.: 7200 = 2 horas)
+$spam_timeout = 7200;
 
-// Start or resume the session
+// Inicia sessão
 session_start();
 
-// Check for timeout
+// Compara o horário e o timeout
 if (
-    isset($_SESSION['ULTIMA_ATIVIDADE'])    && 
-    (time() - $_SESSION['ULTIMA_ATIVIDADE']) > $timeout
+    isset($_SESSION['ultima_atividade'])    && 
+    (time() - $_SESSION['ultima_atividade']) > $timeout
 ) {
-    // Last request was over timeout_duration ago
+    // Desativa o timeout
+    unset($_SESSION['ultima_atividade']);
+
     require_once 'logout.php';
     exit;
 }
 
-$_SESSION['ULTIMA_ATIVIDADE'] = time(); // Update last activity timestamp
+// Compara o horário e o spam_atividade
+if (
+    isset($_SESSION['spam_atividade'])    && 
+    (time() - $_SESSION['spam_atividade']) > $spam_timeout
+) {
+    // Desativa o timeout da spam_atividade
+    unset($_SESSION['spam_limit']);
+    unset($_SESSION['spam_atividade']);
+}
+
+$_SESSION['ultima_atividade'] = time(); // Atualiza o tempo da ultima_atividade
 ?>

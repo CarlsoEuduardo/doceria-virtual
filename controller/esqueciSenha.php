@@ -1,14 +1,18 @@
 <?php
 require "auth.php";
+require "../model/logica.php";
 
 /* verificar spam */
-if(!isset($_SESSION['esqueciSenha_limit'])) {
-    $_SESSION['esqueciSenha_limit'] = 0;
+if(!isset($_SESSION['spam_limit'])) {
+    $_SESSION['spam_limit'] = 0;
 }
 
-if($_SESSION['esqueciSenha_limit'] < 5) {
+if(
+    $_SERVER['REQUEST_METHOD' === 'POST']   &&
+    $_SESSION['spam_limit'] < 5
+    ) {
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = $_POST['email'];
+        $email = Logica::validate_email($_POST['email']);
         if(empty($email)) {
             echo "
                 <script>
@@ -18,16 +22,16 @@ if($_SESSION['esqueciSenha_limit'] < 5) {
             ";
             exit;
         } else {
-            $_SESSION['esqueciSenha_limit']++;
+            $_SESSION['spam_limit']++;
 
             require "../model/usuario.php";
             if(Usuario::procurarEmail($email)) {
-                require "../model/Auth.php";
-                Email::enviar($email, 'esqueciSenha');
+                require "../model/Email.php";
+                Email::enviar($email, 'senha');
                 echo "
                     <script>
-                        alert('E-mail enviado com sucesso! Atenção ao tempo, seu código expira em 5 minutos!');
-                        window.location.replace('../view/CodigoVerificacao.php');
+                        alert('E-mail enviado com sucesso! Atenção ao tempo, seu código expira em 15 minutos!');
+                        window.location.replace('../index.php');
                     </script>
                 ";
                 exit;
@@ -44,6 +48,9 @@ if($_SESSION['esqueciSenha_limit'] < 5) {
     }
     exit;
 } else {
+    if(!isset($_SESSION['spam_atividade'])) {
+        $_SESSION['spam_atividade'] = time();
+    }
     echo "
         <script>
             alert('Tentativas muito frequentes. Tente novamente mais tarde.');
